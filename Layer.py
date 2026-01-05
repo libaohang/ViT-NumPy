@@ -9,3 +9,11 @@ class Layer(ABC):
     @abstractmethod
     def backward(self, dx):
         pass
+    
+    @abstractmethod
+    def parameters(self):
+        pass
+
+    @abstractmethod
+    def gradients(self):
+        pass
