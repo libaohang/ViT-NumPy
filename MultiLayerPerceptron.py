@@ -12,10 +12,10 @@ class MLP(Layer):
             self.layers.append(activation())
             self.layers.append(Linear(hiddenChannels[i], hiddenChannels[i + 1]))
 
-    def forward(self, image):
+    def forward(self, input):
         for layer in self.layers:
-            image = layer.forward(image)
-        return image
+            input = layer.forward(input)
+        return input
     
     def backward(self, gradient):
         for layer in reversed(self.layers):
