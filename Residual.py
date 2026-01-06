@@ -6,6 +6,7 @@ class Residual(Layer):
         self.subnet = network
 
     def forward(self, image):
+        # Don't need to make a copy since no layers modify input
         input = image
         for layer in self.subnet:
             image = layer.forward(image)

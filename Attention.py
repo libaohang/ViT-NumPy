@@ -76,6 +76,7 @@ class MultiHeadAttention(Layer):
         self.heads = [AttentionHead(modelDim, self.headSize) for _ in range(numHeads)]
         self.layers = self.heads + [self.linear]
 
+    # Feed tokens to numHeads and concatenate outputs together; output has same shape as input
     def forward(self, tokens):
         outTokens = []
         for head in self.heads:
@@ -89,7 +90,8 @@ class MultiHeadAttention(Layer):
         dE_dOut = self.linear.backward(dE_dY)
 
         dE_dTokens = np.zeros_like(dE_dY)
-        for head, tokens in zip(self.heads, np.split(dE_dOut, len(self.heads), axis=-1)):
+        splitGradient = np.split(dE_dOut, len(self.heads), axis=-1)
+        for head, tokens in zip(self.heads, splitGradient):
             dE_dTokens += head.backward(tokens)
         
         return dE_dTokens
@@ -99,7 +101,6 @@ class MultiHeadAttention(Layer):
         for layer in self.layers:
             for parameter in layer.parameters():
                 parameters.append(parameter)
-
         return parameters
         
     def gradients(self):
@@ -107,6 +108,5 @@ class MultiHeadAttention(Layer):
         for layer in self.layers:
             for gradient in layer.gradients():
                 gradients.append(gradient)
-
         return gradients
 
