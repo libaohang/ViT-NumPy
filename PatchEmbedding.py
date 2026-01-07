@@ -43,7 +43,7 @@ class PatchEmbedding(Layer):
         return dE_dX
     
     def parameters(self):
-        return [self.patchWeights]
+        return [(self.patchWeights, "patch weight")]
     
     def gradients(self):
-        return [self.dE_dW]
+        return [(self.dE_dW, "patch weight")]

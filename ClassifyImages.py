@@ -1,7 +1,7 @@
 from TrainTest import trainNetwork, testNetwork
 from Loss import crossEntropyLoss
-from Optimizer import Adam
-from Activations import GELU
+from Optimizer import Adam, AdamW
+from Activations import GELU, ReLU
 from VisionTransformer import VisionTransformer
 from tensorflow.keras.datasets import mnist
 from tensorflow.keras.datasets import cifar10
@@ -19,15 +19,15 @@ def classifyMNIST():
     network = VisionTransformer(patchSize=7,
                                 numPatches=16,
                                 channels=1,
-                                modelDim=9,
+                                modelDim=24,
                                 numHeads=3,
                                 numTrans=3,
-                                mlpWidth=32,
+                                mlpWidth=64,
                                 numClass=10,
-                                activation=GELU)
+                                activation=ReLU)
 
-    optimizer = Adam(network)
-    classifier = trainNetwork(network, crossEntropyLoss, optimizer, xTrain, yTrain, 10, 100)
+    optimizer = AdamW(network, warmupSteps=200, lr=0.005, weight_decay=0.01)
+    classifier = trainNetwork(network, crossEntropyLoss, optimizer, xTrain, yTrain, 30, 100)
 
     testNetwork(classifier, crossEntropyLoss, xTest, yTest)
 

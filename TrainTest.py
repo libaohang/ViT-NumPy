@@ -16,16 +16,17 @@ def trainNetwork(network, loss, optimizer, xTrain, yTrain, epochs = 5, batchSize
             batchX = xTrain[batch : batch + batchSize]
             batchY = yTrain[batch : batch + batchSize]
             
+            # Skip zeroing for the first batch since gradients have not been initialized
+            if(batch > 0):
+                network.zeroGradient()
             logits = network.forward(batchX)
-            
+
             batchLoss, gradient = loss(logits, batchY)
             epochLoss += np.mean(batchLoss)
             numBatches += 1
 
             network.backward(gradient)
             optimizer.step()
-
-            network.zeroGradient()
 
         epochLoss /= numBatches
         print(f"Training error on epoch {1 + epoch} is {epochLoss}")

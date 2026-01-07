@@ -19,15 +19,15 @@ class PositionEncoding(Layer):
         return tokens
     
     def backward(self, dE_dY):
-        self.dE_dPos = dE_dY.sum(axis=0)
+        self.dE_dPos = dE_dY.sum(axis=0, keepdims = True)
 
         # Get the cls gradient from every image
-        self.dE_dCls = dE_dY[:, 0, :].sum(axis=0, keepdims = True)
+        self.dE_dCls = dE_dY[:, 0:1, :].sum(axis=0, keepdims = True)
         dE_dPatch = dE_dY[:, 1:, :]
         return dE_dPatch
     
     def parameters(self):
-        return [self.cls, self.posEmbedding]
+        return [(self.cls, "cls weight"), (self.posEmbedding, "pos weight")]
     
     def gradients(self):
-        return [self.dE_dCls, self.dE_dPos]
+        return [(self.dE_dCls, "cls weight"), (self.dE_dPos, "pos weight")]

@@ -17,9 +17,9 @@ class AttentionHead(Layer):
 
     def forward(self, tokens):
         # tokens : (batch, numPatches + 1, modelDim)
-        self.Q = self.query(tokens)
-        self.K = self.key(tokens)
-        self.V = self.value(tokens)
+        self.Q = self.query.forward(tokens)
+        self.K = self.key.forward(tokens)
+        self.V = self.value.forward(tokens)
         # Q, K, V : (batch, numPatches + 1, headSize)
 
         score = self.Q @ self.K.transpose(0, 2, 1) 

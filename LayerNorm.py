@@ -22,10 +22,11 @@ class LayerNorm(Layer):
         dE_dX = ((scaled - scaled.mean(axis=-1, keepdims=True) -
                  self.inputNorm * (scaled * self.inputNorm).mean(axis=-1, keepdims=True))
                  / np.sqrt(self.variance + self.eps))
+        
         return dE_dX
     
     def parameters(self):
-        return [self.scale, self.shift]
+        return [(self.scale, "ln sc"), (self.shift, "ln sh")]
     
     def gradients(self):
-        return [self.dE_dScale, self.dE_dShift]
+        return [(self.dE_dScale, "ln sc"), (self.dE_dShift, "ln sh")]
