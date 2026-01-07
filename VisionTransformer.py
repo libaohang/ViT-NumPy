@@ -43,3 +43,8 @@ class VisionTransformer(Layer):
             for gradient in layer.gradients():
                 gradients.append(gradient)
         return gradients
+    
+    def zeroGradient(self):
+        for grad in self.gradients():
+            grad[...] = 0
+        
