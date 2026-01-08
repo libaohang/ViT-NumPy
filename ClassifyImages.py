@@ -7,6 +7,17 @@ from tensorflow.keras.datasets import mnist
 from tensorflow.keras.datasets import cifar10
 import numpy as np
 
+# Toggle dropout
+def train(network):
+    for layer in network.layers:
+        if hasattr(layer, "training"):
+            layer.training = True
+
+def eval(network):
+    for layer in network.layers:
+        if hasattr(layer, "training"):
+            layer.training = False
+
 def classifyMNIST():
     (xTrain, yTrain), (xTest, yTest) = mnist.load_data()
 
@@ -16,19 +27,24 @@ def classifyMNIST():
     xTrain = xTrain[:, :, :, None]
     xTest = xTest[:, :, :, None]
 
-    network = VisionTransformer(patchSize=7,
-                                numPatches=16,
+    # Reach 98.22% after 30 epochs
+    network = VisionTransformer(patchSize=4,
+                                numPatches=49,
                                 channels=1,
-                                modelDim=24,
-                                numHeads=3,
+                                modelDim=32,
+                                numHeads=4,
                                 numTrans=3,
                                 mlpWidth=64,
                                 numClass=10,
-                                activation=ReLU)
+                                activation=ReLU,
+                                dropout=0.1)
 
-    optimizer = AdamW(network, warmupSteps=200, lr=0.005, weight_decay=0.01)
-    classifier = trainNetwork(network, crossEntropyLoss, optimizer, xTrain, yTrain, 30, 100)
+    optimizer = AdamW(network, warmupSteps=200, lr=0.005, weight_decay=0.003)
 
+    train(network)
+    classifier = trainNetwork(network, crossEntropyLoss, optimizer, xTrain, yTrain, 30, 100, lrDecayStart=15)
+
+    eval(network)
     testNetwork(classifier, crossEntropyLoss, xTest, yTest)
 
 if __name__ == '__main__':

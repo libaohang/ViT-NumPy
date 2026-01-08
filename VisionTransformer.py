@@ -6,13 +6,13 @@ from PositionEncoding import PositionEncoding
 from Transformer import TransformerEncoder
 
 class VisionTransformer(Layer):
-    def __init__(self, patchSize, numPatches, channels, modelDim, numHeads, numTrans, mlpWidth, numClass, activation):
+    def __init__(self, patchSize, numPatches, channels, modelDim, numHeads, numTrans, mlpWidth, numClass, activation, dropout=0.1):
         self.patch = PatchEmbedding(patchSize, channels, modelDim)
         self.position = PositionEncoding(numPatches, modelDim)
         self.layers = [self.patch, self.position]
 
         for _ in range(numTrans):
-            self.layers.append(TransformerEncoder(modelDim, numHeads, mlpWidth, activation))
+            self.layers.append(TransformerEncoder(modelDim, numHeads, mlpWidth, activation, dropout))
 
         # Classification head
         self.mlp = Linear(modelDim, numClass)

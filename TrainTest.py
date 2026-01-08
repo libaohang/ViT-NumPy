@@ -1,7 +1,6 @@
 import numpy as np
-from Softmax import Softmax
 
-def trainNetwork(network, loss, optimizer, xTrain, yTrain, epochs = 5, batchSize = 100):
+def trainNetwork(network, loss, optimizer, xTrain, yTrain, epochs = 5, batchSize = 100, lrDecayStart=10):
     sampleSize = xTrain.shape[0]
 
     for epoch in range(epochs):
@@ -28,6 +27,9 @@ def trainNetwork(network, loss, optimizer, xTrain, yTrain, epochs = 5, batchSize
             network.backward(gradient)
             optimizer.step()
 
+        if (epoch == lrDecayStart):
+            print("lr decay")
+            optimizer.lrDecay()
         epochLoss /= numBatches
         print(f"Training error on epoch {1 + epoch} is {epochLoss}")
     

@@ -1,8 +1,9 @@
 from Layer import Layer
 from LinearLayer import Linear
+from Dropout import Dropout
 
 class MLP(Layer):
-    def __init__(self, inputDim, hiddenChannels, activation):
+    def __init__(self, inputDim, hiddenChannels, activation, dropout=False, p=None):
         # len(hiddenChannels) is the total number of linear layers
         assert len(hiddenChannels) > 0
 
@@ -10,6 +11,8 @@ class MLP(Layer):
         self.layers = [Linear(inputDim, hiddenChannels[0])]
         for i in range(len(hiddenChannels) - 1):
             self.layers.append(activation())
+            if(dropout and (p is not None)):
+                self.layers.append(Dropout(p))
             self.layers.append(Linear(hiddenChannels[i], hiddenChannels[i + 1]))
 
     def forward(self, input):
@@ -38,5 +41,5 @@ class MLP(Layer):
     
 # MLP structure specific for ViT: Linear(modelDim, hiddenDim) -> activation -> Linear(hiddenDim, modelDim)
 class ViTMLP(MLP):
-    def __init__(self, modelDim, hiddenDim, activation):
-        super().__init__(modelDim, [hiddenDim, modelDim], activation)
+    def __init__(self, modelDim, hiddenDim, activation, p=0.1):
+        super().__init__(modelDim, [hiddenDim, modelDim], activation, dropout=True, p=p)

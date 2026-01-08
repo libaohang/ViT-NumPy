@@ -5,7 +5,7 @@ from MultiLayerPerceptron import ViTMLP
 from Residual import Residual
 
 class TransformerEncoder(Layer):
-    def __init__(self, modelDim, numHeads, mlpWidth, activation):
+    def __init__(self, modelDim, numHeads, mlpWidth, activation, dropout=0.1):
         # residual(layernorm -> multi head attention)
         ln1 = LayerNorm(modelDim)
         mha = MultiHeadAttention(modelDim, numHeads)
@@ -14,7 +14,7 @@ class TransformerEncoder(Layer):
 
         # residual(layernorm -> mlp)
         ln2 = LayerNorm(modelDim)
-        mlp = ViTMLP(modelDim, mlpWidth, activation)
+        mlp = ViTMLP(modelDim, mlpWidth, activation, p=dropout)
         subnet2 = [ln2, mlp]
         self.residual2 = Residual(subnet2)
 

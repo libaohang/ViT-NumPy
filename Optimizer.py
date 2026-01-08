@@ -98,3 +98,6 @@ class AdamW:
 
             # update
             p -= lr * m_hat / (np.sqrt(v_hat) + self.eps)
+
+    def lrDecay(self):
+        self.targetlr /= 10
