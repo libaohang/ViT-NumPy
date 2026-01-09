@@ -38,6 +38,7 @@ class Adam:
 
             # Parameter update (in-place)
             p -= lr * m_hat / (np.sqrt(v_hat) + self.eps)
+            p = p.astype(np.float32)
 
 class AdamW:
     def __init__(self, network, lr=1e-3, warmupSteps=100, weight_decay=1e-2,

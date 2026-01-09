@@ -3,8 +3,8 @@ import numpy as np
 
 class PositionEncoding(Layer):
     def __init__(self, numPatches, modelDim):
-        self.cls = np.random.randn(1, 1, modelDim) * np.sqrt(1 / modelDim)
-        self.posEmbedding = np.random.randn(1, numPatches + 1, modelDim) * np.sqrt(2 / ((numPatches + 1) * modelDim))
+        self.cls = (np.random.randn(1, 1, modelDim) * np.sqrt(1 / modelDim)).astype(np.float32)
+        self.posEmbedding = (np.random.randn(1, numPatches + 1, modelDim) * np.sqrt(2 / ((numPatches + 1) * modelDim))).astype(np.float32)
 
     def forward(self, patchEmbedding):
         # patchEmbedding : (batch, numPatches, modelDim)

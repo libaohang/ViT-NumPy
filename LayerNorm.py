@@ -4,8 +4,8 @@ import numpy as np
 class LayerNorm(Layer):
     def __init__(self, modelDim, eps=1e-5):
         self.eps = eps
-        self.scale = np.ones(modelDim)
-        self.shift = np.zeros(modelDim)
+        self.scale = np.ones(modelDim).astype(np.float32)
+        self.shift = np.zeros(modelDim).astype(np.float32)
 
     # normalize over last dimension (modelDim)
     def forward(self, input):

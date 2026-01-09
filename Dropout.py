@@ -9,7 +9,6 @@ class Dropout(Layer):
 
     def forward(self, x):
         if not self.training or self.p == 0:
-            print(self.training)
             return x
 
         self.mask = (np.random.rand(*x.shape) > self.p) / (1 - self.p)

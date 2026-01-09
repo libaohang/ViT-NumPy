@@ -6,7 +6,7 @@ class PatchEmbedding(Layer):
         self.patchSize = patchSize
         self.channels = channels
         self.modelDim = modelDim
-        self.patchWeights = np.random.randn(patchSize * patchSize * channels, modelDim) * np.sqrt(2 / (patchSize * patchSize * channels))
+        self.patchWeights = (np.random.randn(patchSize * patchSize * channels, modelDim) * np.sqrt(2 / (patchSize * patchSize * channels))).astype(np.float32)
 
     def forward(self, image):
         self.batch, height, width, channels = image.shape

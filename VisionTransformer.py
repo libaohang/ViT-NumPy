@@ -1,12 +1,13 @@
 from Layer import Layer
 from CLS import GetCLS
 from LinearLayer import Linear
+from LayerNorm import LayerNorm
 from PatchEmbedding import PatchEmbedding
 from PositionEncoding import PositionEncoding
 from Transformer import TransformerEncoder
 
 class VisionTransformer(Layer):
-    def __init__(self, patchSize, numPatches, channels, modelDim, numHeads, numTrans, mlpWidth, numClass, activation, dropout=0.1):
+    def __init__(self, patchSize, numPatches, channels, modelDim, numHeads, numTrans, mlpWidth, numClass, activation, dropout=0.1, classifierLN=False):
         self.patch = PatchEmbedding(patchSize, channels, modelDim)
         self.position = PositionEncoding(numPatches, modelDim)
         self.layers = [self.patch, self.position]
@@ -17,6 +18,9 @@ class VisionTransformer(Layer):
         # Classification head
         self.mlp = Linear(modelDim, numClass)
         # Softmax done in training loop
+
+        if(classifierLN):
+            self.layers.append(LayerNorm(modelDim))
         self.layers += [GetCLS(), self.mlp]
 
     

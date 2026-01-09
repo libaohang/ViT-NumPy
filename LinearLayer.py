@@ -3,9 +3,9 @@ import numpy as np
 
 class Linear(Layer):
     def __init__(self, inputDim, outputDim):
-        self.weights = np.random.randn(outputDim, inputDim)  * np.sqrt(1 / (inputDim))
+        self.weights = (np.random.randn(outputDim, inputDim)  * np.sqrt(1 / (inputDim))).astype(np.float32)
         # Add axis so bias broadcasts in the batch dimension
-        self.bias = np.zeros((1, outputDim))
+        self.bias = np.zeros((1, outputDim), dtype=np.float32)
     
     def forward(self, input):
         self.input = input
