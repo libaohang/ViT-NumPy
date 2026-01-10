@@ -34,7 +34,7 @@ I built the backpropagation, AdamW, data augmentation, and dropout with only Num
 ᅟᅟᅟᅟᅟᅟ↓ <br>
 ᅟᅟᅟᅟ ᅟ **MLP**               ᅟᅟᅟᅟMap CLS to class values <br>
 
-### Networks and Variables
+### Networks and Variables:
 
 I assembled 3 different configurations of vision transformer using the layers I implemented. Network 1 and Network 2 are designed for classifying MNIST while Network 3 is configured for classifying CIFAR-10. For context, MNIST is a dataset of grayscale images of handwritten numbers 0 to 9, and CIFAR is a dataset of colored images of 10 types of objects, such as birds, planes, trucks, etc. <br>
 Below is a table detailing some influential variables and each network's respective value for them. <br>
