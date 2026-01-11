@@ -1,7 +1,7 @@
 import numpy as np
 from Augmentation import augmentCIFAR10
 
-def trainNetwork(network, loss, optimizer, xTrain, yTrain, epochs = 5, batchSize = 100, lrDecayStart=10, augment=False):
+def trainNetwork(network, loss, optimizer, xTrain, yTrain, epochs = 5, batchSize = 100, lrDecayStart=10, augment=False, printBatch=False):
     sampleSize = xTrain.shape[0]
 
     for epoch in range(epochs):
@@ -31,7 +31,7 @@ def trainNetwork(network, loss, optimizer, xTrain, yTrain, epochs = 5, batchSize
             network.backward(gradient)
             optimizer.step()
 
-            if numBatches % 10 == 0:
+            if numBatches % 10 == 0 and printBatch:
                 print(f"epoch {epoch + 1} batch {numBatches}", flush=True)
                 print("batchLoss shape/min/max/mean:",
                     np.shape(batchLoss), np.min(batchLoss), np.max(batchLoss), np.mean(batchLoss))

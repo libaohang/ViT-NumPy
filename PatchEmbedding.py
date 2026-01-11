@@ -33,7 +33,6 @@ class PatchEmbedding(Layer):
 
         self.dE_dW = patchesReshaped @ dE_dY # dE_dW -> (patchSize * patchSize * channels, modelDim)
 
-
         # Don't actually need to return anything since this is the first layer (last layer of backward prop)
 
         dE_dX = dE_dY @ self.patchWeights.T # dE_dX -> (batch, outHeight * outWidth, patchSize * patchSize * channels)

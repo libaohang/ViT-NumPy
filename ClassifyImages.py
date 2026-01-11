@@ -40,7 +40,7 @@ def classifyMNIST():
                                 activation=ReLU,
                                 dropout=0.1)
     
-    optimizer1 = AdamW(network1, warmupSteps=100, lr=0.01, weight_decay=0.001)
+    optimizer1 = AdamW(network1, warmupSteps=100, lr=0.01, weightDecay=0.001)
 
     # Reach 98.22% test accuracy after 30 epochs; runtime 90 minutes; lr decay at epoch 15
     network2 = VisionTransformer(patchSize=4,
@@ -54,18 +54,18 @@ def classifyMNIST():
                                 activation=ReLU,
                                 dropout=0.1)
 
-    optimizer2 = AdamW(network1, warmupSteps=200, lr=0.005, weight_decay=0.003)
+    optimizer2 = AdamW(network2, warmupSteps=200, lr=0.005, weightDecay=0.003)
 
     open("results.txt", "w").close()
 
     start_time = time.perf_counter()
-    train(network1)
-    classifier = trainNetwork(network1, crossEntropyLoss, optimizer1, xTrain, yTrain, 20, 100, lrDecayStart=10)
+    train(network2)
+    classifier = trainNetwork(network2, crossEntropyLoss, optimizer2, xTrain, yTrain, 20, 100, lrDecayStart=10)
     end_time = time.perf_counter()
     
     saveModel(classifier, "vit_mnist.npz")
 
-    eval(network1)
+    eval(network2)
     testNetwork(classifier, crossEntropyLoss, xTest, yTest)
     print(f"Total training time: {end_time - start_time:.2f} seconds")
 
@@ -112,7 +112,7 @@ def classifyCIFAR10():
 
     start_time = time.perf_counter()
     train(network3)
-    classifier = trainNetwork(network3, crossEntropyWithLogits, optimizer3, xTrain, yTrain, 40, 50, lrDecayStart=20, augment=True)
+    classifier = trainNetwork(network3, crossEntropyWithLogits, optimizer3, xTrain, yTrain, 40, 50, lrDecayStart=20, augment=True, printBatch=True)
     end_time = time.perf_counter()
 
     saveModel(classifier, "vit_cifar10.npz")

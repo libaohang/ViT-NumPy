@@ -24,10 +24,8 @@ def eval(network):
 def testMNIST():
     (xTrain, yTrain), (xTest, yTest) = mnist.load_data()
 
-    xTrain = xTrain.astype(np.float32) / 255.0
     xTest  = xTest.astype(np.float32) / 255.0
 
-    xTrain = xTrain[:, :, :, None]
     xTest = xTest[:, :, :, None]
 
     network1 = VisionTransformer(patchSize=7,
@@ -54,16 +52,13 @@ def testMNIST():
 def testCIFAR10():
     (xTrain, yTrain), (xTest, yTest) = cifar10.load_data()
 
-    xTrain = xTrain.astype(np.float32) / 255.0
     xTest  = xTest.astype(np.float32) / 255.0
 
     mean = np.array([0.4914, 0.4822, 0.4465], dtype=np.float32)
     std  = np.array([0.2023, 0.1994, 0.2010], dtype=np.float32)
 
-    xTrain = (xTrain - mean) / std
     xTest  = (xTest  - mean) / std
 
-    yTrain = yTrain.reshape(-1).astype(np.int64)
     yTest  = yTest.reshape(-1).astype(np.int64)
 
     network3 = VisionTransformer(patchSize=4,
