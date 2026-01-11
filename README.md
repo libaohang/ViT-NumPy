@@ -79,7 +79,7 @@ __Key:__ <br>
 Green line: training error vs epoch<br>
 Red line: final test error after 20 epochs<br>
 
-Network 1 is the most lightweight of the 3 and has the shortest training time of 5 minutes on my computer. It achieves final test accuracy of **96.7%** on MNIST after 20 epochs. The sharp decrease in loss between the 10th and 11th epoch is due to lr decay. <br>
+Network 1 is the most lightweight of the 3 and has the shortest training time of 5 minutes on my computer. It achieves final test accuracy of **96.7%** on MNIST after 20 epochs. The sharp decrease in loss between the 10th and 11th epoch is due to lr decay. Network 1 has 3,742 parameters. <br>
 
 ### Network 2
 **Training Error over Epochs Trained for Network 2 on MNIST:**
@@ -90,7 +90,7 @@ __Key:__ <br>
 Orange line: training error vs epoch<br>
 Blue line: final test error after 30 epochs<br>
 
-Network 2 achieves **98.2%** test accuracy on MNIST after 30 epochs. It has a smaller patch size and more attention heads than Network 2, so it took 1.5 hours to train. Bumps and oscillations in the training curve are due to noise introduced by dropout.
+Network 2 achieves **98.2%** test accuracy on MNIST after 30 epochs. It has a smaller patch size and more attention heads than Network 2, so it took 1.5 hours to train. Bumps and oscillations in the training curve are due to noise introduced by dropout. Network 2 has 28,106 parameters. <br>
 
 ### Network 3
 **Training Error over Epochs Trained for Network 3 on CIFAR-10:**
@@ -101,7 +101,7 @@ __Key:__ <br>
 Purple line: training error vs epoch<br>
 Black line: final test error after 40 epochs<br>
 
-Network 3 is much bigger than the previous 2 networks, and because implementing everything in NumPy means it can only rely on CPU to run, it took 6.5 hours to train. After 40 epochs, it has a final test accuracy of **77.5%** on CIFAR-10. Considering the complexity of CIFAR-10, this accuracy is satisfactory for a ViT implemented from NumPy. Initially, training the network would cause the memory to explode to 6-8 GB, so I had to make some optimizations, such as forcing weight matrices to have type float32 instead of float64 and reducing batch size. After memory optimization, training took about 2 GB of memory and trained for 6.5 hours using 2-3 CPU cores. <br>
+Network 3 is much bigger than the previous 2 networks, and because implementing everything in NumPy means it can only rely on CPU to run, it took 6.5 hours to train. After 40 epochs, it has a final test accuracy of **77.5%** on CIFAR-10. Considering the complexity of CIFAR-10, this accuracy is satisfactory for a ViT implemented from NumPy. Initially, training the network would cause the memory to explode to 6-8 GB, so I had to make some optimizations, such as forcing weight matrices to have type float32 instead of float64 and reducing batch size. After memory optimization, training took about 2 GB of memory and trained for 6.5 hours using 2-3 CPU cores. Network 3 has a total of 141,962 parameters.<br>
 
 ### Comparison to CNN:
 For MNIST, ViT appears to converge faster than the CNN that I also implemented in NumPy. The lightweight ViT of Network 1 achieves 96.7% after 20 epochs, which is slightly better than the CNN with 1 convolution layer at 96% test accuracy on MNIST. The same pattern is observed for CIFAR-10 where Network 3 achieves 77.5% compared to the 60% achieved by CNN with 3 convolution layers. However, CNN theoretically would do better on small datasets such as MNIST and CIFAR-10, so these observed differences are certainly because I implemented data augmentation and layer normalization for ViT while I didn't do so for CNN. In addition, the CNN with 3 layers was only trained for 25 epochs, and its training curve was still steep towards the end, so it would have likely achieved a similar accuracy of 70-80% on CIFAR-10 if trained for more epochs. <br>
