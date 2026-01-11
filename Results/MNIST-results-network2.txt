@@ -1,0 +1,33 @@
+Training error on epoch 1 is 0.6916119770828485
+Training error on epoch 2 is 0.2574329889817369
+Training error on epoch 3 is 0.19087041577337943
+Training error on epoch 4 is 0.1641519723492869
+Training error on epoch 5 is 0.14774575174333135
+Training error on epoch 6 is 0.13286547370423502
+Training error on epoch 7 is 0.12156412814027798
+Training error on epoch 8 is 0.1151229417495814
+Training error on epoch 9 is 0.10681386359303142
+Training error on epoch 10 is 0.10355044085574726
+Training error on epoch 11 is 0.09755862937205544
+Training error on epoch 12 is 0.09715148619697829
+Training error on epoch 13 is 0.09244061684861048
+Training error on epoch 14 is 0.08417430869864889
+Training error on epoch 15 is 0.08184120364565714
+Training error on epoch 16 is 0.08157785505503153
+lr decay
+Training error on epoch 17 is 0.03726584941768465
+Training error on epoch 18 is 0.02550727640802832
+Training error on epoch 19 is 0.021479060992178355
+Training error on epoch 20 is 0.01745508843056436
+Training error on epoch 21 is 0.01587265073736572
+Training error on epoch 22 is 0.013400929478858285
+Training error on epoch 23 is 0.011720729872621346
+Training error on epoch 24 is 0.009530972932314521
+Training error on epoch 25 is 0.008356074425466677
+Training error on epoch 26 is 0.007040136534245428
+Training error on epoch 27 is 0.006892630546253232
+Training error on epoch 28 is 0.007284724335995663
+Training error on epoch 29 is 0.005681228368356224
+Training error on epoch 30 is 0.004438907948865931
+Testing error is 0.08388216400194565, with accuracy of 0.9822
+Total training time: 5353.68 seconds

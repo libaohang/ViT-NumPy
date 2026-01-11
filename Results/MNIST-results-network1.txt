@@ -8,6 +8,7 @@ Training error on epoch 7 is 0.1807568835201832
 Training error on epoch 8 is 0.17151268473748654
 Training error on epoch 9 is 0.16990036140466225
 Training error on epoch 10 is 0.1669475032781167
+lr decay
 Training error on epoch 11 is 0.11297351679531263
 Training error on epoch 12 is 0.10272810981067383
 Training error on epoch 13 is 0.10067224828509118

@@ -59,16 +59,26 @@ def trainNetwork(network, loss, optimizer, xTrain, yTrain, epochs = 5, batchSize
     
     return network
 
-def testNetwork(network, loss, xTest, yTest):
-    logits = network.forward(xTest)
+def testNetwork(network, loss, xTest, yTest, batchSize=100):
+    n = xTest.shape[0]
+    total_loss = 0.0
+    total_correct = 0
 
-    error, _ = loss(logits, yTest)
+    for i in range(0, n, batchSize):
+        bx = xTest[i:i+batchSize]
+        by = yTest[i:i+batchSize]
 
-    predictions = logits.argmax(axis=1)
+        logits = network.forward(bx)              # (B, 10)
+        loss_vals, _ = loss(logits, by)        # (B,)
+        total_loss += float(np.sum(loss_vals))
 
-    accuracy = np.mean(predictions == yTest)
+        preds = np.argmax(logits, axis=1)
+        total_correct += int(np.sum(preds == by))
 
-    print(f"Testing error is {np.mean(error)}, with accuracy of {accuracy}")
+    avg_loss = total_loss / n
+    acc = total_correct / n
+
+    print(f"Testing error is {avg_loss}, with accuracy of {acc}")
     result = open("results.txt", "a")
-    result.write(f"Testing error is {np.mean(error)}, with accuracy of {accuracy}\n")
+    result.write(f"Testing error is {avg_loss}, with accuracy of {acc}\n")
     result.close()

@@ -41,13 +41,13 @@ class Adam:
             p = p.astype(np.float32)
 
 class AdamW:
-    def __init__(self, network, lr=1e-3, warmupSteps=100, weight_decay=1e-2,
+    def __init__(self, network, lr=1e-3, warmupSteps=100, weightDecay=1e-2,
                  betas=(0.9, 0.999), eps=1e-8,
                  decay_tags=("weight", "patch weight")):
         self.network = network
         self.targetlr = lr
         self.warmupSteps = warmupSteps
-        self.weight_decay = weight_decay
+        self.weight_decay = weightDecay
         self.decay_tags = set(decay_tags)
 
         self.beta1, self.beta2 = betas

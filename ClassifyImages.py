@@ -28,7 +28,7 @@ def classifyMNIST():
     xTrain = xTrain[:, :, :, None]
     xTest = xTest[:, :, :, None]
 
-    # Reach 96.15% after 20 epochs; runtime 5 minutes; lr decay at epoch 10
+    # Reach 96.15% test accuracy after 20 epochs; runtime 5 minutes; lr decay at epoch 10
     network1 = VisionTransformer(patchSize=7,
                                 numPatches=16,
                                 channels=1,
@@ -42,7 +42,7 @@ def classifyMNIST():
     
     optimizer1 = AdamW(network1, warmupSteps=100, lr=0.01, weight_decay=0.001)
 
-    # Reach 98.22% after 30 epochs; runtime 90 minutes; lr decay at epoch 15
+    # Reach 98.22% test accuracy after 30 epochs; runtime 90 minutes; lr decay at epoch 15
     network2 = VisionTransformer(patchSize=4,
                                 numPatches=49,
                                 channels=1,
@@ -62,6 +62,8 @@ def classifyMNIST():
     train(network1)
     classifier = trainNetwork(network1, crossEntropyLoss, optimizer1, xTrain, yTrain, 20, 100, lrDecayStart=10)
     end_time = time.perf_counter()
+    
+    saveModel(classifier, "vit_mnist.npz")
 
     eval(network1)
     testNetwork(classifier, crossEntropyLoss, xTest, yTest)
@@ -70,8 +72,6 @@ def classifyMNIST():
     result = open("results.txt", "a")
     result.write(f"Total training time: {end_time - start_time:.2f} seconds\n")
     result.close()
-
-    save_model(classifier, "vit_mnist.npz")
 
 def classifyCIFAR10():
     (xTrain, yTrain), (xTest, yTest) = cifar10.load_data()
@@ -93,7 +93,8 @@ def classifyCIFAR10():
     yTrain = yTrain[:]
     yTest = yTest[:]
 
-    network1 = VisionTransformer(patchSize=4,
+    #Reach 77.5% test accuracy after 40 epochs; runtime 6.5 hours; lr decay at epoch 20
+    network3 = VisionTransformer(patchSize=4,
                                 numPatches=64,
                                 channels=3,
                                 modelDim=64,
@@ -105,16 +106,18 @@ def classifyCIFAR10():
                                 dropout=0.1,
                                 classifierLN=True)
     
-    optimizer1 = AdamW(network1, warmupSteps=500, lr=0.001, weight_decay=0.01)
+    optimizer3 = AdamW(network3, warmupSteps=500, lr=0.001, weightDecay=0.01)
 
     open("results.txt", "w").close()
 
     start_time = time.perf_counter()
-    train(network1)
-    classifier = trainNetwork(network1, crossEntropyWithLogits, optimizer1, xTrain, yTrain, 40, 50, lrDecayStart=20, augment=True)
+    train(network3)
+    classifier = trainNetwork(network3, crossEntropyWithLogits, optimizer3, xTrain, yTrain, 40, 50, lrDecayStart=20, augment=True)
     end_time = time.perf_counter()
 
-    eval(network1)
+    saveModel(classifier, "vit_cifar10.npz")
+
+    eval(network3)
     testNetwork(classifier, crossEntropyWithLogits, xTest, yTest)
     print(f"Total training time: {end_time - start_time:.2f} seconds")
 
@@ -122,13 +125,11 @@ def classifyCIFAR10():
     result.write(f"Total training time: {end_time - start_time:.2f} seconds\n")
     result.close()
 
-    save_model(classifier, "vit_cifar10.npz")
-
     
-def save_model(network, path="vit_checkpoint.npz"):
+def saveModel(network, path="vit_checkpoint.npz"):
     params = [arr for (arr, name) in network.parameters()]
     np.savez(path, *params)
 
 if __name__ == '__main__':
     classifyMNIST()
-    #classifyCIFAR10()
+    classifyCIFAR10()
